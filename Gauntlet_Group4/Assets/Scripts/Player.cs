@@ -14,11 +14,20 @@ public class Player : MonoBehaviour {
 
 	//TODO Weapon weapon;
 
-	virtual protected void Attack(){
-
+	void Start(){
+		GameController.instance.playersInGame.Add (this);
 	}
 
 	void Update(){
-		transform.position += new Vector3(Input.GetAxis ("Horizontal"), Input.GetAxis ("Vertical"), 0) * moveSpeed * Time.deltaTime;
+		transform.position += new Vector3(Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical")) * moveSpeed * Time.deltaTime;
 	}
+
+	virtual protected void Attack(){
+		
+	}
+
+	void OnDestroy(){
+		GameController.instance.playersInGame.Remove (this);
+	}
+
 }
