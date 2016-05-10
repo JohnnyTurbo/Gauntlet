@@ -1,10 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CameraFollow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Warrior.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameController.cs" Line="11" Column="39" />
-      <File FileName="Assets\Scripts\CameraFollow.cs" Line="52" Column="2" />
-      <File FileName="Assets\Scripts\Player.cs" Line="26" Column="3" />
+      <File FileName="Assets\Scripts\ValkyrieWeapon.cs" Line="7" Column="2" />
+      <File FileName="Assets\Scripts\Weapon.cs" Line="11" Column="41" />
+      <File FileName="Assets\Scripts\WizardWeapon.cs" Line="6" Column="2" />
+      <File FileName="Assets\Scripts\ElfWeapon.cs" Line="6" Column="2" />
+      <File FileName="Assets\Scripts\WarriorWeapon.cs" Line="6" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="25" Column="129" />
+      <File FileName="Assets\Scripts\Warrior.cs" Line="9" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

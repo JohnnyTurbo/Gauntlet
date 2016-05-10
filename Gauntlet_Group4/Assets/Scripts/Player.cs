@@ -4,6 +4,9 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
 	public float moveSpeed;
+	public GameObject WeaponPrefab;
+
+	protected Vector3 playerFacingDirection;
 
 	int health;
 	int score;
@@ -23,7 +26,7 @@ public class Player : MonoBehaviour {
 	}
 
 	virtual protected void Attack(){
-		
+		GameObject newWeapon = GameObject.Instantiate (WeaponPrefab, transform.position, Quaternion.identity) as GameObject;
 	}
 
 	void OnDestroy(){
