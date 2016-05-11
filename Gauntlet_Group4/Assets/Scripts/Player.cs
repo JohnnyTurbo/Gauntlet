@@ -7,26 +7,30 @@ public class Player : MonoBehaviour {
 	public GameObject WeaponPrefab;
 
 	protected Vector3 playerFacingDirection;
+    protected float weaponAngle;
+    protected GameObject playerImage;
+    protected Vector3 eulerAngles;
 
-	int health;
+    int health;
 	int score;
 	int potions;
 	int keys;
 	int armor;
 	int magic;
 
-	//TODO Weapon weapon;
+    void Awake() {
+        playerImage = transform.FindChild ("PlayerIcon").gameObject;
+    }
 
 	void Start(){
 		GameController.instance.playersInGame.Add (this);
-	}
-
-	void Update(){
-		//transform.position += new Vector3(Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical")) * moveSpeed * Time.deltaTime;
+        //playerFacingDirection = new Vector3(0,90,0);
 	}
 
 	virtual protected void Attack(){
-		GameObject newWeapon = GameObject.Instantiate (WeaponPrefab, transform.position, Quaternion.identity) as GameObject;
+        //float weaponAngle = Vector3.Angle (playerFacingDirection, Vector3.forward);
+       
+        GameObject newWeapon = GameObject.Instantiate (WeaponPrefab, transform.position, Quaternion.Euler(0,weaponAngle,0)) as GameObject;
 	}
 
 	void OnDestroy(){
