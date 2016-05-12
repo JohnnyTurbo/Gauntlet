@@ -38,4 +38,8 @@ public class Player : MonoBehaviour {
 		GameController.instance.playersInGame.Remove (this);
 	}
 
+	public void IncreaseScore(int newScore){
+		score += newScore;
+	}
+
 }

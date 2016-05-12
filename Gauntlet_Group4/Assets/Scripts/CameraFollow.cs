@@ -6,7 +6,7 @@ public class CameraFollow : MonoBehaviour {
 	public float cameraMoveSpeed;
 	public float minCamSize;
 	public float maxCamSize;
-
+	public float sizeCompensation;
 	float camSize;
 
 	void Awake(){
@@ -15,7 +15,7 @@ public class CameraFollow : MonoBehaviour {
 
 	void Update () {
 		transform.position = Vector3.Lerp(transform.position, CalculatePosition (), Time.deltaTime * cameraMoveSpeed);
-		GetComponent<Camera> ().orthographicSize = Mathf.Lerp(GetComponent<Camera> ().orthographicSize, CalculateSize (), Time.deltaTime * cameraMoveSpeed);
+		GetComponent<Camera> ().orthographicSize = Mathf.Lerp(GetComponent<Camera> ().orthographicSize, CalculateSize () + sizeCompensation, Time.deltaTime * cameraMoveSpeed);
 		//camSize = CalculateSize ();
 	}
 
