@@ -31,6 +31,7 @@ public class Player : MonoBehaviour {
         //float weaponAngle = Vector3.Angle (playerFacingDirection, Vector3.forward);
        
         GameObject newWeapon = GameObject.Instantiate (WeaponPrefab, transform.position, Quaternion.Euler(0,weaponAngle,0)) as GameObject;
+		newWeapon.GetComponent<Weapon> ().myPlayer = this;
 	}
 
 	void OnDestroy(){
