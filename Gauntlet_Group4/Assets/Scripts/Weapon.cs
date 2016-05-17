@@ -21,7 +21,7 @@ public class Weapon : MonoBehaviour {
     void OnCollisionEnter(Collision col) {
         switch (col.gameObject.tag) {
             case "Enemy":
-                col.gameObject.GetComponent<Enemy> ().DecrementHealth(attackStrength);
+                col.gameObject.GetComponent<Enemy> ().DecrementHealth(attackStrength, myPlayer);
                 Destroy (gameObject);
                 break;
             case "EnemySpawner":

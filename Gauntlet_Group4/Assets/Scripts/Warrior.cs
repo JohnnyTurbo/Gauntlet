@@ -3,35 +3,35 @@ using System.Collections;
 
 public class Warrior : Player {
 
-    
-
-    void Update() {
-
-		transform.position += new Vector3(Input.GetAxis ("Controller1Horizontal"), 0, Input.GetAxis ("Controller1Vertical")) * moveSpeed * Time.deltaTime;
-        if (Input.GetAxis ("Controller1Horizontal") != 0 || Input.GetAxis ("Controller1Vertical") != 0) {
-            playerFacingDirection = new Vector3 (Input.GetAxis ("Controller1Horizontal"), 0, Input.GetAxis ("Controller1Vertical"));
-            weaponAngle = Vector3.Angle (playerFacingDirection, Vector3.forward);
-            if (playerFacingDirection.x < 0) {
-                weaponAngle = -weaponAngle;
-            }
-        }
-
-        eulerAngles = transform.eulerAngles;
-        eulerAngles = new Vector3 (0, weaponAngle, 0);
-        transform.eulerAngles = eulerAngles;
-
-        if (Input.GetButtonDown ("Controller1Attack")) {
-            //Debug.Log ("P1 attacking");
-			Attack();
-        }
-        if (Input.GetButtonDown ("Controller1Item")) {
-            Debug.Log ("P1 using item");
-        }
+    void Awake() {
+        horizontalInput = "Controller1Horizontal";
+        verticalInput = "Controller1Vertical";
+        attackInput = "Controller1Attack";
+        itemInput = "Controller1Item";
     }
 
-	protected override void Attack ()
+    protected override void Attack ()
 	{
 		base.Attack ();
 	}
 
+    public override void IncreaseScore(int newScore) {
+        base.IncreaseScore (newScore);
+        GameController.instance.warriorScoretext.text = "Score: " + score;
+    }
+
+    public override void ChangeHealth(int numHealth) {
+        base.ChangeHealth (numHealth);
+        GameController.instance.warriorHealthtext.text = "Health: " + health;
+    }
+
+    public override void ChangeNumKeys(int numKeys) {
+        base.ChangeNumKeys (numKeys);
+        GameController.instance.warriorKeystext.text = "Keys: " + keys;
+    }
+
+    public override void ChangePotions(int numPotions) {
+        base.ChangePotions (numPotions);
+        GameController.instance.warriorPotionstext.text = "Potions: " + potions;
+    }
 }

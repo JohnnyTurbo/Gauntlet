@@ -3,29 +3,30 @@ using System.Collections;
 
 public class Valkyrie : Player {
 
-    void Update() {
-
-        transform.position += new Vector3 (Input.GetAxis ("Controller3Horizontal"), 0, Input.GetAxis ("Controller3Vertical")) * moveSpeed * Time.deltaTime;
-
-        if (Input.GetAxis ("Controller3Horizontal") != 0 || Input.GetAxis ("Controller3Vertical") != 0) {
-            playerFacingDirection = new Vector3 (Input.GetAxis ("Controller3Horizontal"), 0, Input.GetAxis ("Controller3Vertical"));
-            weaponAngle = Vector3.Angle (playerFacingDirection, Vector3.forward);
-            if (playerFacingDirection.x < 0) {
-                weaponAngle = -weaponAngle;
-            }
-        }
-
-        eulerAngles = transform.eulerAngles;
-        eulerAngles = new Vector3 (0, weaponAngle, 0);
-        transform.eulerAngles = eulerAngles;
-
-        if (Input.GetButtonDown ("Controller3Attack")) {
-            //Debug.Log ("P3 attacking");
-            Attack ();
-        }
-        if (Input.GetButtonDown ("Controller3Item")) {
-            Debug.Log ("P3 using item");
-        }
+    void Awake() {
+        horizontalInput = "Controller3Horizontal";
+        verticalInput = "Controller3Vertical";
+        attackInput = "Controller3Attack";
+        itemInput = "Controller3Item";
     }
 
+    public override void IncreaseScore(int newScore) {
+        base.IncreaseScore (newScore);
+        GameController.instance.valkyrieScoretext.text = "Score: " + score;
+    }
+
+    public override void ChangeHealth(int numHealth) {
+        base.ChangeHealth (numHealth);
+        GameController.instance.valkyrieHealthtext.text = "Health: " + health;
+    }
+
+    public override void ChangeNumKeys(int numKeys) {
+        base.ChangeNumKeys (numKeys);
+        GameController.instance.valkyrieKeystext.text = "Keys: " + keys;
+    }
+
+    public override void ChangePotions(int numPotions) {
+        base.ChangePotions (numPotions);
+        GameController.instance.valkyriePotionstext.text = "Potions: " + potions;
+    }
 }

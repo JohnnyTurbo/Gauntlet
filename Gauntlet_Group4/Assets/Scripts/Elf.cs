@@ -3,36 +3,30 @@ using System.Collections;
 
 public class Elf : Player {
 
-    void Update() {
-
-        //transform.position += new Vector3 (Input.GetAxis ("Controller4Horizontal"), 0, Input.GetAxis ("Controller4Vertical")) * moveSpeed * Time.deltaTime;
-
-		/*
-		Vector3 test = new Vector3 (Input.GetAxis ("Controller4Horizontal"), 0, Input.GetAxis ("Controller4Vertical")) * moveSpeed;// * Time.deltaTime;
-		transform.Translate(test * Time.deltaTime, Space.World);
-		*/
-
-		GetComponent<Rigidbody> ().AddForce (new Vector3(Input.GetAxis ("Controller4Horizontal"), 0, Input.GetAxis ("Controller4Vertical")) * moveSpeed);
-
-		if (Input.GetAxis ("Controller4Horizontal") != 0 || Input.GetAxis ("Controller4Vertical") != 0) {
-            playerFacingDirection = new Vector3 (Input.GetAxis ("Controller4Horizontal"), 0, Input.GetAxis ("Controller4Vertical"));
-            weaponAngle = Vector3.Angle (playerFacingDirection, Vector3.forward);
-            if (playerFacingDirection.x < 0) {
-                weaponAngle = -weaponAngle;
-            }
-        }
-
-        eulerAngles = transform.eulerAngles;
-        eulerAngles = new Vector3 (0, weaponAngle, 0);
-        transform.eulerAngles = eulerAngles;
-
-        if (Input.GetButtonDown ("Controller4Attack")) {
-            //Debug.Log ("P4 attacking");
-            Attack ();
-        }
-        if (Input.GetButtonDown ("Controller4Item")) {
-            Debug.Log ("P4 using item");
-        }
+    void Awake() {
+        horizontalInput = "Controller4Horizontal";
+        verticalInput = "Controller4Vertical";
+        attackInput = "Controller4Attack";
+        itemInput = "Controller4Item";
     }
 
+    public override void IncreaseScore(int newScore) {
+        base.IncreaseScore (newScore);
+        GameController.instance.elfScoretext.text = "Score: " + score;
+    }
+
+    public override void ChangeHealth(int numHealth) {
+        base.ChangeHealth (numHealth);
+        GameController.instance.elfHealthtext.text = "Health: " + health;
+    }
+
+    public override void ChangeNumKeys(int numKeys) {
+        base.ChangeNumKeys (numKeys);
+        GameController.instance.elfKeystext.text = "Keys: " + keys;
+    }
+
+    public override void ChangePotions(int numPotions) {
+        base.ChangePotions (numPotions);
+        GameController.instance.elfPotionstext.text = "Potions: " + potions;
+    }
 }

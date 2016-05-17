@@ -11,12 +11,14 @@ public class Player : MonoBehaviour {
     protected GameObject playerImage;
     protected Vector3 eulerAngles;
 
-    int health;
-	int score;
-	int potions;
-	int keys;
-	int armor;
-	int magic;
+    protected string horizontalInput, verticalInput, attackInput, itemInput;
+
+    protected int health;
+	protected int score;
+    protected int potions;
+    protected int keys;
+    protected int armor;
+    protected int magic;
 
     void Awake() {
         playerImage = transform.FindChild ("PlayerIcon").gameObject;
@@ -27,9 +29,64 @@ public class Player : MonoBehaviour {
         //playerFacingDirection = new Vector3(0,90,0);
 	}
 
-	virtual protected void Attack(){
+    void Update() {
+
+        GetComponent<Rigidbody> ().AddForce (new Vector3 (Input.GetAxis (horizontalInput), 0, Input.GetAxis (verticalInput)).normalized * moveSpeed);
+
+        if (Input.GetAxis (horizontalInput) != 0 || Input.GetAxis (verticalInput) != 0) {
+            playerFacingDirection = new Vector3 (Input.GetAxis (horizontalInput), 0, Input.GetAxis (verticalInput));
+            weaponAngle = Vector3.Angle (playerFacingDirection, Vector3.forward);
+            if (playerFacingDirection.x < 0) {
+                weaponAngle = -weaponAngle;
+            }
+        }
+
+        eulerAngles = transform.eulerAngles;
+        eulerAngles = new Vector3 (0, weaponAngle, 0);
+        transform.eulerAngles = eulerAngles;
+
+        if (Input.GetButtonDown (attackInput)) {
+            //Debug.Log ("P1 attacking");
+            Attack ();
+        }
+        if (Input.GetButtonDown (itemInput)) {
+            Debug.Log ("Player using item");
+        }
+    }
+
+    void OnCollisionEnter(Collision other) {
+        switch (other.gameObject.tag) {
+            case "Chest":
+                IncreaseScore (100);
+                Destroy (other.gameObject);
+                break;
+            case "Door":
+                if (this.keys > 0) {
+                    ChangeNumKeys (-1);
+                    Destroy (other.gameObject);
+                }
+                break;
+            case "Key":
+                ChangeNumKeys (1);
+                Destroy (other.gameObject);
+                break;
+            case "Exit":
+                break;
+            case "Food":
+                ChangeHealth (100);
+                Destroy (other.gameObject);
+                break;
+            case "Potion":
+                ChangePotions (1);
+                Destroy (other.gameObject);
+                break;
+            default:
+                return;
+        }
+    }
+
+    virtual protected void Attack(){
         //float weaponAngle = Vector3.Angle (playerFacingDirection, Vector3.forward);
-       
         GameObject newWeapon = GameObject.Instantiate (WeaponPrefab, transform.position, Quaternion.Euler(0,weaponAngle,0)) as GameObject;
 		newWeapon.GetComponent<Weapon> ().myPlayer = this;
 	}
@@ -38,8 +95,20 @@ public class Player : MonoBehaviour {
 		GameController.instance.playersInGame.Remove (this);
 	}
 
-	public void IncreaseScore(int newScore){
-		score += newScore;
+	public virtual void IncreaseScore(int newScore){
+        score += newScore;
 	}
+
+    public virtual void ChangeHealth(int numHealth) {
+        health += numHealth;
+    }
+
+    public virtual void ChangeNumKeys(int numKeys) {
+        keys += numKeys;
+    }
+
+    public virtual void ChangePotions(int numPotions) {
+        potions += numPotions;
+    }
 
 }

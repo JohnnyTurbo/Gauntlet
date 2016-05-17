@@ -31,9 +31,10 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    public void DecrementHealth(int decHealthBy) {
+    public void DecrementHealth(int decHealthBy, Player player) {
         health -= decHealthBy;
         if (health <= 0) {
+            player.IncreaseScore (score);
             Destroy (gameObject);
         }
     }
