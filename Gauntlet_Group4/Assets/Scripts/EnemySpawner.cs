@@ -5,6 +5,8 @@ public class EnemySpawner : MonoBehaviour {
 
     public GameObject enemyType;
     public float timeBetweenSpawns;
+    public float health;
+    public int score;
 
     public bool[] locations = new bool[8];
     public bool[] isOpen = new bool[8];
@@ -39,5 +41,13 @@ public class EnemySpawner : MonoBehaviour {
 
     public void ReopenIndex(int indexToOpen) {
         isOpen[indexToOpen] = true;
+    }
+
+    public void DecrementHealth(int decHealthBy, Player player) {
+        health -= decHealthBy;
+        if (health <= 0) {
+            player.IncreaseScore (score);
+            Destroy (gameObject);
+        }
     }
 }

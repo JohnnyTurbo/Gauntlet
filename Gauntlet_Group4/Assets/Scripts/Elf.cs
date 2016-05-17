@@ -4,6 +4,7 @@ using System.Collections;
 public class Elf : Player {
 
     void Awake() {
+        DontDestroyOnLoad (transform.gameObject);
         horizontalInput = "Controller4Horizontal";
         verticalInput = "Controller4Vertical";
         attackInput = "Controller4Attack";

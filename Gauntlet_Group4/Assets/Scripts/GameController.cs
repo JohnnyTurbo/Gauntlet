@@ -13,7 +13,8 @@ public class GameController : MonoBehaviour {
     public Text warriorHealthtext, warriorScoretext, warriorKeystext, warriorPotionstext, wizardHealthtext, wizardScoretext, wizardKeystext, wizardPotionstext, valkyrieHealthtext, valkyrieScoretext, valkyrieKeystext, valkyriePotionstext, elfHealthtext, elfScoretext, elfKeystext, elfPotionstext;
 
     void Awake(){
-		playersInGame = new List<Player> ();
+        DontDestroyOnLoad (transform.gameObject);
+        playersInGame = new List<Player> ();
 		instance = this;
 
         warriorHealthtext.text = "Health: 0";
@@ -37,6 +38,10 @@ public class GameController : MonoBehaviour {
         elfPotionstext.text = "Potions: 0";
     }
 
-
+    public void BeginLevel() {
+        for (int index = 0; index < playersInGame.Count; index++) {
+            playersInGame[index].transform.position = PlayerSpawner.instance.spawnSpots[index] + PlayerSpawner.instance.transform.position;
+        }
+    }
 
 }

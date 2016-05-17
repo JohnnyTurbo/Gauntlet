@@ -4,6 +4,7 @@ using System.Collections;
 public class Wizard : Player {
 
     void Awake() {
+        DontDestroyOnLoad (transform.gameObject);
         horizontalInput = "Controller2Horizontal";
         verticalInput = "Controller2Vertical";
         attackInput = "Controller2Attack";

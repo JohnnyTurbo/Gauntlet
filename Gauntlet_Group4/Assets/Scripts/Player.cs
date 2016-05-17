@@ -22,6 +22,7 @@ public class Player : MonoBehaviour {
 
     void Awake() {
         playerImage = transform.FindChild ("PlayerIcon").gameObject;
+        DontDestroyOnLoad (transform.gameObject);
     }
 
 	void Start(){
@@ -71,6 +72,7 @@ public class Player : MonoBehaviour {
                 Destroy (other.gameObject);
                 break;
             case "Exit":
+                Application.LoadLevel (Application.loadedLevel + 1);
                 break;
             case "Food":
                 ChangeHealth (100);

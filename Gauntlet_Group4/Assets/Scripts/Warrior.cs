@@ -4,6 +4,7 @@ using System.Collections;
 public class Warrior : Player {
 
     void Awake() {
+        DontDestroyOnLoad (transform.gameObject);
         horizontalInput = "Controller1Horizontal";
         verticalInput = "Controller1Vertical";
         attackInput = "Controller1Attack";

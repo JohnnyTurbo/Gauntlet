@@ -4,6 +4,7 @@ using System.Collections;
 public class Valkyrie : Player {
 
     void Awake() {
+        DontDestroyOnLoad (transform.gameObject);
         horizontalInput = "Controller3Horizontal";
         verticalInput = "Controller3Vertical";
         attackInput = "Controller3Attack";

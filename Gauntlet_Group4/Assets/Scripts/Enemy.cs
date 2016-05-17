@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour {
     public int armor;
     public int health;
     public int magicResist;
+    public float distFromPlayer;
 
     public int spawnerIndex;
     public EnemySpawner mySpawner;
@@ -27,7 +28,12 @@ public class Enemy : MonoBehaviour {
 
     void Update() {
         if (target) {
-            nmAgent.SetDestination (target.transform.position);
+            if (distFromPlayer < Vector3.Distance (target.transform.position, transform.position)) {
+                nmAgent.SetDestination (target.transform.position);
+            }
+            else {
+                nmAgent.SetDestination (transform.position);
+            }
         }
     }
 
@@ -41,9 +47,25 @@ public class Enemy : MonoBehaviour {
 
     void OnTriggerEnter(Collider col) {
         if (!hasTarget && col.gameObject.tag == "Player") {
-            hasTarget = true;
-            target = col.gameObject;
-            mySpawner.ReopenIndex (spawnerIndex);
+            RaycastHit hit;
+            Physics.Linecast (gameObject.transform.position, col.transform.position, out hit);
+            if (hit.transform.gameObject.tag == "Player") {
+                hasTarget = true;
+                target = col.gameObject;
+                mySpawner.ReopenIndex (spawnerIndex);
+            }
+        }
+    }
+
+    void OnTriggerStay(Collider col) {
+        if (!hasTarget && col.gameObject.tag == "Player") {
+            RaycastHit hit;
+            Physics.Linecast (gameObject.transform.position, col.transform.position, out hit);
+            if (hit.transform.gameObject.tag == "Player") {
+                hasTarget = true;
+                target = col.gameObject;
+                mySpawner.ReopenIndex (spawnerIndex);
+            }
         }
     }
 

@@ -7,6 +7,10 @@ public class CameraFollow : MonoBehaviour {
 	public float minCamSize;
 	public float maxCamSize;
 	public float sizeCompensation;
+
+    float xCompensation = 0f;
+    float calculatedSize;
+    Vector3 calculatedPos;
 	float camSize;
 
 	void Awake(){
@@ -14,9 +18,12 @@ public class CameraFollow : MonoBehaviour {
 	}
 
 	void Update () {
-		transform.position = Vector3.Lerp(transform.position, CalculatePosition (), Time.deltaTime * cameraMoveSpeed);
-		GetComponent<Camera> ().orthographicSize = Mathf.Lerp(GetComponent<Camera> ().orthographicSize, CalculateSize () + sizeCompensation, Time.deltaTime * cameraMoveSpeed);
-		//camSize = CalculateSize ();
+        calculatedPos = CalculatePosition ();
+        calculatedSize = CalculateSize ();
+        xCompensation = calculatedSize / 2;
+		transform.position = Vector3.Lerp(transform.position, calculatedPos, Time.deltaTime * cameraMoveSpeed);
+		GetComponent<Camera> ().orthographicSize = Mathf.Lerp(GetComponent<Camera> ().orthographicSize, calculatedSize, Time.deltaTime * cameraMoveSpeed);
+        //camSize = CalculateSize ();
 	}
 
 	Vector3 CalculatePosition(){
@@ -28,26 +35,26 @@ public class CameraFollow : MonoBehaviour {
 		x /= GameController.instance.playersInGame.Count;
 		z /= GameController.instance.playersInGame.Count;
 
-		return new Vector3 (x, transform.position.y, z);
+		return new Vector3 (x + xCompensation, transform.position.y, z);
 	}
 
 	float CalculateSize(){
 		float greatestDistance = 0;
 		float distFromCamToPlayer = 0;
 		foreach (Player player in GameController.instance.playersInGame){
-			distFromCamToPlayer = Vector3.Distance (new Vector3(player.transform.position.x, 0, player.transform.position.z), new Vector3(transform.position.x, 0, transform.position.z));
+			distFromCamToPlayer = Vector3.Distance (new Vector3(player.transform.position.x, 0, player.transform.position.z), new Vector3(transform.position.x - xCompensation, 0, transform.position.z));
 			if (greatestDistance < distFromCamToPlayer){
 				greatestDistance = distFromCamToPlayer;
 			}
 		}
 		if (greatestDistance <= minCamSize) {
-			return minCamSize;
+            return minCamSize + (sizeCompensation * (minCamSize/maxCamSize));
 		} 
 		else if (greatestDistance >= maxCamSize) {
-			return maxCamSize;
+            return maxCamSize + sizeCompensation;
 		} 
 		else {
-			return greatestDistance;
+            return greatestDistance + (sizeCompensation * (greatestDistance/maxCamSize));
 		}
 	}
 }
