@@ -51,7 +51,20 @@ public class Player : MonoBehaviour {
             Attack ();
         }
         if (Input.GetButtonDown (itemInput)) {
-            Debug.Log ("Player using item");
+            if (potions > 0) {
+                potions--;
+                Collider[] objectsInrad = Physics.OverlapSphere (transform.position, 10);
+                foreach (Collider col in objectsInrad) {
+                    if (col.gameObject.tag == "Enemy") {
+                        col.gameObject.GetComponent<Enemy> ().DecrementHealth (1000000, this);
+                    }
+                }
+            }
+        }
+
+        if (health <= 0) {
+            ChangeHealth (-health);
+            Destroy (gameObject);
         }
     }
 
@@ -91,10 +104,6 @@ public class Player : MonoBehaviour {
         //float weaponAngle = Vector3.Angle (playerFacingDirection, Vector3.forward);
         GameObject newWeapon = GameObject.Instantiate (WeaponPrefab, transform.position, Quaternion.Euler(0,weaponAngle,0)) as GameObject;
 		newWeapon.GetComponent<Weapon> ().myPlayer = this;
-	}
-
-	void OnDestroy(){
-		GameController.instance.playersInGame.Remove (this);
 	}
 
 	public virtual void IncreaseScore(int newScore){

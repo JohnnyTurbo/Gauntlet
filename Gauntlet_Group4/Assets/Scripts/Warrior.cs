@@ -1,14 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Warrior : Player {
 
+    public static Warrior instance;
+
     void Awake() {
         DontDestroyOnLoad (transform.gameObject);
+        instance = this;
+        GameController.instance.warriorJoinText.SetActive (false);
+        GameController.instance.warriorSpawned = true;
         horizontalInput = "Controller1Horizontal";
         verticalInput = "Controller1Vertical";
         attackInput = "Controller1Attack";
         itemInput = "Controller1Item";
+        ChangeHealth (1000);
+        StartCoroutine (DecrementHealthEachSecond ());
     }
 
     protected override void Attack ()
@@ -34,5 +42,17 @@ public class Warrior : Player {
     public override void ChangePotions(int numPotions) {
         base.ChangePotions (numPotions);
         GameController.instance.warriorPotionstext.text = "Potions: " + potions;
+    }
+
+    void OnDestroy() {
+        GameController.instance.playersInGame.Remove (this);
+        GameController.instance.warriorJoinText.SetActive (true);
+        GameController.instance.warriorJoinText.transform.FindChild ("Panel").FindChild ("Text").GetComponent<Text> ().text = "Defeated!";
+    }
+
+    IEnumerator DecrementHealthEachSecond() {
+        yield return new WaitForSeconds (1f);
+        ChangeHealth (-1);
+        StartCoroutine (DecrementHealthEachSecond ());
     }
 }

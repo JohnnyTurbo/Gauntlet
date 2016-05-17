@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour {
     
     public void BeginGame() {
         if (!warriorToggle.isOn && !wizardToggle.isOn && !valkyrieToggle.isOn && !elfToggle.isOn) { return; }
-
+        gchud.SetActive (true);
         if (warriorToggle.isOn) {
             GameObject.Instantiate (warriorGO);
         }
@@ -33,7 +33,7 @@ public class MainMenu : MonoBehaviour {
         if (elfToggle.isOn) {
             GameObject.Instantiate (elfGO);
         }
-        gchud.SetActive (true);
+        
         Application.LoadLevel (Application.loadedLevel + 1);
     }
 }

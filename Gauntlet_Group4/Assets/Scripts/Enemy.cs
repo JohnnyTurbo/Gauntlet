@@ -7,9 +7,7 @@ public class Enemy : MonoBehaviour {
     public float moveSpeed;
     public float attackSpeed;
     public int attackStrength;
-    public int armor;
     public int health;
-    public int magicResist;
     public float distFromPlayer;
 
     public int spawnerIndex;
@@ -26,7 +24,7 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    void Update() {
+    protected virtual void Update() {
         if (target) {
             if (distFromPlayer < Vector3.Distance (target.transform.position, transform.position)) {
                 nmAgent.SetDestination (target.transform.position);
