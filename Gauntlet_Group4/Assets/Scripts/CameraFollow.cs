@@ -14,8 +14,8 @@ public class CameraFollow : MonoBehaviour {
 	float camSize;
 
 	void Awake(){
-		//camSize = GetComponent<Camera> ().orthographicSize;
-	}
+
+    }
 
 	void Update () {
         calculatedPos = CalculatePosition ();
@@ -23,7 +23,6 @@ public class CameraFollow : MonoBehaviour {
         xCompensation = calculatedSize / 2;
 		transform.position = Vector3.Lerp(transform.position, calculatedPos, Time.deltaTime * cameraMoveSpeed);
 		GetComponent<Camera> ().orthographicSize = Mathf.Lerp(GetComponent<Camera> ().orthographicSize, calculatedSize, Time.deltaTime * cameraMoveSpeed);
-        //camSize = CalculateSize ();
 	}
 
 	Vector3 CalculatePosition(){

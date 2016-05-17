@@ -25,6 +25,7 @@ public class Weapon : MonoBehaviour {
                 Destroy (gameObject);
                 break;
             case "EnemySpawner":
+                col.gameObject.GetComponent<EnemySpawner> ().DecrementHealth (attackStrength, myPlayer);
                 Destroy (gameObject);
                 break;
             case "Wall":
